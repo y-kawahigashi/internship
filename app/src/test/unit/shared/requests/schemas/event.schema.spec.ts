@@ -1,3 +1,5 @@
+import { Prefecture } from "@/shared/common/enums/prefecture.enum";
+import { Reward } from "@/shared/common/enums/reward.enum";
 import { CreateEventParamsSchema } from "@/shared/requests/schemas/event.schema";
 
 describe("event.schema", () => {
@@ -9,6 +11,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -26,6 +30,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -42,6 +48,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -58,6 +66,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -72,6 +82,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -85,11 +97,31 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 1,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
 
         expect(result.success).toBe(true);
+      });
+
+      it("rewardがnullの場合は有効", () => {
+        const data = {
+          name: "Test Event",
+          eventStartDatetime: "2025-01-01T10:00:00.000Z",
+          eventEndDatetime: "2025-01-01T12:00:00.000Z",
+          capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: null,
+        };
+
+        const result = CreateEventParamsSchema.safeParse(data);
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.reward).toBeNull();
+        }
       });
     });
 
@@ -99,6 +131,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -115,6 +149,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -133,6 +169,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -151,6 +189,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -172,6 +212,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -191,6 +233,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -210,6 +254,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -229,6 +275,8 @@ describe("event.schema", () => {
           name: "Test Event",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -247,6 +295,8 @@ describe("event.schema", () => {
           eventStartDatetime: 123,
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -265,6 +315,8 @@ describe("event.schema", () => {
           eventStartDatetime: "invalid-date",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -283,6 +335,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01 10:00:00",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -302,6 +356,8 @@ describe("event.schema", () => {
           name: "Test Event",
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -320,6 +376,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: 123,
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -338,6 +396,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "invalid-date",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -356,6 +416,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T12:00:00.000Z",
           eventEndDatetime: "2025-01-01T10:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -374,6 +436,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T10:00:00.000Z",
           capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -393,6 +457,8 @@ describe("event.schema", () => {
           name: "Test Event",
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -409,6 +475,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: "100",
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -427,6 +495,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: 0,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -445,6 +515,8 @@ describe("event.schema", () => {
           eventStartDatetime: "2025-01-01T10:00:00.000Z",
           eventEndDatetime: "2025-01-01T12:00:00.000Z",
           capacity: -1,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: Reward.CASH,
         };
 
         const result = CreateEventParamsSchema.safeParse(data);
@@ -453,6 +525,124 @@ describe("event.schema", () => {
         if (!result.success) {
           expect(result.error.issues[0].message).toBe(
             "capacity must be greater than 0"
+          );
+        }
+      });
+    });
+
+    describe("prefectureのバリデーション", () => {
+      it("prefectureが未指定の場合は無効", () => {
+        const data = {
+          name: "Test Event",
+          eventStartDatetime: "2025-01-01T10:00:00.000Z",
+          eventEndDatetime: "2025-01-01T12:00:00.000Z",
+          capacity: 100,
+          reward: Reward.CASH,
+        };
+
+        const result = CreateEventParamsSchema.safeParse(data);
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.issues[0].message).toBe("prefecture is required");
+        }
+      });
+
+      it("prefectureが数値型でない場合は無効", () => {
+        const data = {
+          name: "Test Event",
+          eventStartDatetime: "2025-01-01T10:00:00.000Z",
+          eventEndDatetime: "2025-01-01T12:00:00.000Z",
+          capacity: 100,
+          prefecture: "HOKKAIDO",
+          reward: Reward.CASH,
+        };
+
+        const result = CreateEventParamsSchema.safeParse(data);
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.issues[0].message).toBe(
+            "prefecture must be a valid enum value"
+          );
+        }
+      });
+
+      it("prefectureが無効な値の場合は無効", () => {
+        const data = {
+          name: "Test Event",
+          eventStartDatetime: "2025-01-01T10:00:00.000Z",
+          eventEndDatetime: "2025-01-01T12:00:00.000Z",
+          capacity: 100,
+          prefecture: "INVALID",
+          reward: Reward.CASH,
+        };
+
+        const result = CreateEventParamsSchema.safeParse(data);
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.issues[0].message).toBe(
+            "prefecture must be a valid enum value"
+          );
+        }
+      });
+    });
+
+    describe("rewardのバリデーション", () => {
+      it("rewardが未指定の場合は無効", () => {
+        const data = {
+          name: "Test Event",
+          eventStartDatetime: "2025-01-01T10:00:00.000Z",
+          eventEndDatetime: "2025-01-01T12:00:00.000Z",
+          capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+        };
+
+        const result = CreateEventParamsSchema.safeParse(data);
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.issues[0].message).toBe("reward is required");
+        }
+      });
+
+      it("rewardが数値型でない場合は無効", () => {
+        const data = {
+          name: "Test Event",
+          eventStartDatetime: "2025-01-01T10:00:00.000Z",
+          eventEndDatetime: "2025-01-01T12:00:00.000Z",
+          capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: "CASH",
+        };
+
+        const result = CreateEventParamsSchema.safeParse(data);
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.issues[0].message).toBe(
+            "reward must be a valid enum value"
+          );
+        }
+      });
+
+      it("rewardが無効な値の場合は無効", () => {
+        const data = {
+          name: "Test Event",
+          eventStartDatetime: "2025-01-01T10:00:00.000Z",
+          eventEndDatetime: "2025-01-01T12:00:00.000Z",
+          capacity: 100,
+          prefecture: Prefecture.HOKKAIDO,
+          reward: "INVALID",
+        };
+
+        const result = CreateEventParamsSchema.safeParse(data);
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.issues[0].message).toBe(
+            "reward must be a valid enum value"
           );
         }
       });

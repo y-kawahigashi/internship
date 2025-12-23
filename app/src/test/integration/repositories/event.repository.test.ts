@@ -2,6 +2,8 @@
 import { prisma } from "@/lib/prisma";
 import { container } from "@/server/container";
 import { EventRepository } from "@/server/repositories/event.repository";
+import { Prefecture } from "@/shared/common/enums/prefecture.enum";
+import { Reward } from "@/shared/common/enums/reward.enum";
 import { DataCleaner } from "@/test/helpers/data-cleaner";
 
 describe("EventRepository", () => {
@@ -20,6 +22,8 @@ describe("EventRepository", () => {
         eventStartDatetime: new Date("2025-01-01T10:00:00.000Z"),
         eventEndDatetime: new Date("2025-01-01T12:00:00.000Z"),
         capacity: 100,
+        prefecture: Prefecture.TOKYO,
+        reward: Reward.CASH,
       });
 
       expect(event).toBeDefined();
@@ -32,6 +36,8 @@ describe("EventRepository", () => {
         new Date("2025-01-01T12:00:00.000Z")
       );
       expect(event.capacity).toBe(100);
+      expect(event.prefecture).toBe(Prefecture.TOKYO);
+      expect(event.reward).toBe(Reward.CASH);
     });
 
     it("説明がnullのイベントを作成できること", async () => {
@@ -41,12 +47,35 @@ describe("EventRepository", () => {
         eventStartDatetime: new Date("2025-01-01T10:00:00.000Z"),
         eventEndDatetime: new Date("2025-01-01T12:00:00.000Z"),
         capacity: 50,
+        prefecture: Prefecture.TOKYO,
+        reward: Reward.CASH,
       });
 
       expect(event).toBeDefined();
       expect(event.name).toBe("Test Event");
       expect(event.description).toBeNull();
       expect(event.capacity).toBe(50);
+      expect(event.prefecture).toBe(Prefecture.TOKYO);
+      expect(event.reward).toBe(Reward.CASH);
+    });
+
+    it("報酬がnullのイベントを作成できること", async () => {
+      const event = await eventRepository.create({
+        name: "Test Event",
+        description: "This is a test event",
+        eventStartDatetime: new Date("2025-01-01T10:00:00.000Z"),
+        eventEndDatetime: new Date("2025-01-01T12:00:00.000Z"),
+        capacity: 50,
+        prefecture: Prefecture.TOKYO,
+        reward: null,
+      });
+
+      expect(event).toBeDefined();
+      expect(event.name).toBe("Test Event");
+      expect(event.description).toBe("This is a test event");
+      expect(event.capacity).toBe(50);
+      expect(event.prefecture).toBe(Prefecture.TOKYO);
+      expect(event.reward).toBeNull();
     });
   });
 
@@ -59,6 +88,8 @@ describe("EventRepository", () => {
           eventStartDatetime: new Date("2025-01-01T10:00:00.000Z"),
           eventEndDatetime: new Date("2025-01-01T12:00:00.000Z"),
           capacity: 100,
+          prefecture: Prefecture.TOKYO,
+          reward: Reward.CASH,
           createdAt: new Date("2025-01-01T00:00:00.000Z"),
           updatedAt: new Date("2025-01-01T00:00:00.000Z"),
         },
@@ -70,6 +101,8 @@ describe("EventRepository", () => {
           eventStartDatetime: new Date("2025-01-02T10:00:00.000Z"),
           eventEndDatetime: new Date("2025-01-02T12:00:00.000Z"),
           capacity: 200,
+          prefecture: Prefecture.TOKYO,
+          reward: Reward.CASH,
           createdAt: new Date("2025-01-02T00:00:00.000Z"),
           updatedAt: new Date("2025-01-02T00:00:00.000Z"),
         },
@@ -81,6 +114,8 @@ describe("EventRepository", () => {
           eventStartDatetime: new Date("2025-01-03T10:00:00.000Z"),
           eventEndDatetime: new Date("2025-01-03T12:00:00.000Z"),
           capacity: 300,
+          prefecture: Prefecture.TOKYO,
+          reward: Reward.CASH,
           createdAt: new Date("2025-01-03T00:00:00.000Z"),
           updatedAt: new Date("2025-01-03T00:00:00.000Z"),
         },
