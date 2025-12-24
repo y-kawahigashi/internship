@@ -1,4 +1,6 @@
 import { PrismaClient } from "@/generated/prisma";
+import { Prefecture } from "@/shared/common/enums/prefecture.enum";
+import { Reward } from "@/shared/common/enums/reward.enum";
 import { addDays, addHours, createDate, getParts, now, TZ } from "@/utils/date";
 
 const prisma = new PrismaClient();
@@ -9,6 +11,8 @@ type EventTemplate = {
   startHour: number;
   duration: number;
   capacity: number;
+  prefecture: Prefecture;
+  reward: Reward | null;
 };
 
 type Event = {
@@ -17,6 +21,8 @@ type Event = {
   eventStartDatetime: Date;
   eventEndDatetime: Date;
   capacity: number;
+  prefecture: Prefecture;
+  reward: Reward | null;
 };
 
 const eventTemplates = [
@@ -27,6 +33,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.HOKKAIDO,
+    reward: null,
   },
   {
     name: "TypeScript実践セミナー",
@@ -34,6 +42,8 @@ const eventTemplates = [
     startHour: 14,
     duration: 2,
     capacity: 25,
+    prefecture: Prefecture.AOMORI,
+    reward: Reward.CASH,
   },
   {
     name: "Next.jsアプリケーション開発",
@@ -42,6 +52,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 3,
     capacity: 40,
+    prefecture: Prefecture.IWATE,
+    reward: Reward.QUO_CARD,
   },
   {
     name: "Docker/Kubernetes基礎講座",
@@ -50,6 +62,8 @@ const eventTemplates = [
     startHour: 13,
     duration: 2,
     capacity: 35,
+    prefecture: Prefecture.MIYAGI,
+    reward: Reward.POINT,
   },
   {
     name: "AWSクラウド入門",
@@ -58,6 +72,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 2,
     capacity: 50,
+    prefecture: Prefecture.AKITA,
+    reward: null,
   },
   {
     name: "Python機械学習ハンズオン",
@@ -66,6 +82,8 @@ const eventTemplates = [
     startHour: 14,
     duration: 3,
     capacity: 20,
+    prefecture: Prefecture.YAMAGATA,
+    reward: Reward.CASH,
   },
   {
     name: "GraphQL API設計",
@@ -73,6 +91,8 @@ const eventTemplates = [
     startHour: 11,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.FUKUSHIMA,
+    reward: Reward.QUO_CARD,
   },
   {
     name: "マイクロサービスアーキテクチャ",
@@ -81,6 +101,8 @@ const eventTemplates = [
     startHour: 15,
     duration: 2,
     capacity: 25,
+    prefecture: Prefecture.IBARAKI,
+    reward: Reward.POINT,
   },
   {
     name: "CI/CDパイプライン構築",
@@ -89,6 +111,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.TOCHIGI,
+    reward: null,
   },
   {
     name: "セキュリティベストプラクティス",
@@ -97,6 +121,8 @@ const eventTemplates = [
     startHour: 13,
     duration: 2,
     capacity: 40,
+    prefecture: Prefecture.GUNMA,
+    reward: Reward.CASH,
   },
   {
     name: "データベース設計基礎",
@@ -105,6 +131,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 1,
     capacity: 35,
+    prefecture: Prefecture.SAITAMA,
+    reward: Reward.QUO_CARD,
   },
   {
     name: "フロントエンドパフォーマンス最適化",
@@ -113,6 +141,8 @@ const eventTemplates = [
     startHour: 14,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.CHIBA,
+    reward: Reward.POINT,
   },
   {
     name: "バックエンドAPI開発",
@@ -121,6 +151,8 @@ const eventTemplates = [
     startHour: 11,
     duration: 2,
     capacity: 25,
+    prefecture: Prefecture.TOKYO,
+    reward: null,
   },
   {
     name: "モバイルアプリ開発（React Native）",
@@ -129,6 +161,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 3,
     capacity: 20,
+    prefecture: Prefecture.KANAGAWA,
+    reward: Reward.CASH,
   },
   {
     name: "テスト駆動開発（TDD）",
@@ -137,6 +171,8 @@ const eventTemplates = [
     startHour: 15,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.NIIGATA,
+    reward: Reward.QUO_CARD,
   },
   {
     name: "Git/GitHub実践",
@@ -145,6 +181,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 1,
     capacity: 40,
+    prefecture: Prefecture.TOYAMA,
+    reward: Reward.POINT,
   },
   {
     name: "デザインパターン入門",
@@ -153,6 +191,8 @@ const eventTemplates = [
     startHour: 13,
     duration: 2,
     capacity: 25,
+    prefecture: Prefecture.ISHIKAWA,
+    reward: null,
   },
   {
     name: "リアルタイムアプリケーション開発",
@@ -161,6 +201,8 @@ const eventTemplates = [
     startHour: 14,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.FUKUI,
+    reward: Reward.CASH,
   },
   {
     name: "サーバーレスアーキテクチャ",
@@ -169,6 +211,8 @@ const eventTemplates = [
     startHour: 11,
     duration: 2,
     capacity: 35,
+    prefecture: Prefecture.YAMANASHI,
+    reward: Reward.QUO_CARD,
   },
   {
     name: "コンテナオーケストレーション",
@@ -177,6 +221,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 3,
     capacity: 20,
+    prefecture: Prefecture.NAGANO,
+    reward: Reward.POINT,
   },
   {
     name: "モノレポ開発手法",
@@ -185,6 +231,8 @@ const eventTemplates = [
     startHour: 15,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.GIFU,
+    reward: null,
   },
   {
     name: "アクセシビリティ対応",
@@ -192,6 +240,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 1,
     capacity: 40,
+    prefecture: Prefecture.SHIZUOKA,
+    reward: Reward.CASH,
   },
   {
     name: "パフォーマンスモニタリング",
@@ -200,6 +250,8 @@ const eventTemplates = [
     startHour: 13,
     duration: 2,
     capacity: 25,
+    prefecture: Prefecture.AICHI,
+    reward: Reward.QUO_CARD,
   },
   {
     name: "データ可視化技術",
@@ -208,6 +260,8 @@ const eventTemplates = [
     startHour: 14,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.MIE,
+    reward: Reward.POINT,
   },
   {
     name: "ブロックチェーン入門",
@@ -216,6 +270,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 2,
     capacity: 35,
+    prefecture: Prefecture.SHIGA,
+    reward: null,
   },
   {
     name: "DevOps実践",
@@ -224,6 +280,8 @@ const eventTemplates = [
     startHour: 16,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.KYOTO,
+    reward: Reward.CASH,
   },
   {
     name: "API設計のベストプラクティス",
@@ -232,6 +290,8 @@ const eventTemplates = [
     startHour: 11,
     duration: 1,
     capacity: 40,
+    prefecture: Prefecture.OSAKA,
+    reward: Reward.QUO_CARD,
   },
   {
     name: "フルスタック開発入門",
@@ -240,6 +300,8 @@ const eventTemplates = [
     startHour: 10,
     duration: 3,
     capacity: 25,
+    prefecture: Prefecture.HYOGO,
+    reward: Reward.POINT,
   },
   {
     name: "クラウドネイティブ開発",
@@ -248,6 +310,8 @@ const eventTemplates = [
     startHour: 14,
     duration: 2,
     capacity: 30,
+    prefecture: Prefecture.NARA,
+    reward: null,
   },
   {
     name: "AI/MLアプリケーション統合",
@@ -256,6 +320,8 @@ const eventTemplates = [
     startHour: 15,
     duration: 2,
     capacity: 20,
+    prefecture: Prefecture.WAKAYAMA,
+    reward: Reward.CASH,
   },
 ] as const satisfies EventTemplate[];
 
@@ -286,6 +352,8 @@ const events: Event[] = eventTemplates.map((template, index) => {
     eventStartDatetime: startDate,
     eventEndDatetime: endDate,
     capacity: template.capacity,
+    prefecture: template.prefecture,
+    reward: template.reward,
   };
 });
 
@@ -297,6 +365,8 @@ export const createEvents = async () => {
       eventStartDatetime: event.eventStartDatetime,
       eventEndDatetime: event.eventEndDatetime,
       capacity: event.capacity,
+      prefecture: event.prefecture,
+      reward: event.reward,
     })),
   });
 };
