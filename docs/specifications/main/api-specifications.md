@@ -95,7 +95,38 @@
 
 **クエリパラメータ**
 
-なし
+| パラメータ名       | 型     | 必須 | 説明                   |
+| ------------------ | ------ | ---- | ---------------------- |
+| keyword            | string | ×    | 言語のジャンル         |
+| eventStartDatetime | string | ×    | イベント開始日時       |
+| eventEndDatetime   | string | ×    | イベント終了日時       |
+| evantPlace         | int    | ×    | 都道府県               |
+| reward             | string | ×    | 報酬                   |
+| reward_type        | int    | ×    | 報酬内容               |
+| minutes_from       | int    | ×    | 所要時間の最低値（分） |
+| minutes_to         | int    | ×    | 所要時間の最高値（分） |
+| sort               | string | ×    | 整列・並び替え         |
+| order              | string | ×    | 結果の並び替え         |
+
+**バリデーション**
+
+| フィールド名       | エラー条件                                          | エラーメッセージ                                                         |
+| ------------------ | --------------------------------------------------- | ------------------------------------------------------------------------ |
+| keyword            | 50 文字を超える場合                                 | "keyword must be 50 characters or less."                                 |
+| eventStartDatetime | YYYY-MM-DDTHH:MM.SS.mmmZ 形式以外の文字列だった場合 | ”eventStartDatetime must be in YYYY-MM-DDTHH:MM:SS.mmmZ format.”         |
+| eventStartDatetime | 翌日以降の日付                                      | ”eventStartDatetime must be a date starting from tomorrow or later.”     |
+| eventEndDatetime   | YYYY-MM-DDTHH:MM.SS.mmmZ 形式以外の文字列だった場合 | "eventStartDatetime must be in YYYY-MM-DDTHH:MM:SS.mmmZ format."         |
+| eventEndDatetime   | eventStartDatetime 以降の日付                       | "eventEndDatetime must be the same as or later than eventStartDatetime." |
+| evantPlace         | 1~47 以外の文字列が入力された場合                   | "eventPlace must be a value between 1 and 47."                           |
+| eventPlace         | 数値型ではない場合                                  | "eventPlace must be a numeric value."                                    |
+| reward             | ・true/false 以外の文字列だった場合                 | "reward must be either "true" or "false"."                               |
+| reward_type        | 指定してある数値を超える場合                        | "reword_type must be between 1 and 3."                                   |
+| reward_type        | 数値型ではない                                      | "reward_type must be a numeric value."                                   |
+| reward_type        | １未満の場合                                        | "reward_type must be 1 or greater."                                      |
+| minutes_from       | 0 未満の場合                                        | "minutes_from must be 0 or greater."                                     |
+| minutes_to         | 1440 を超える場合                                   | "minutes_to must be 1440 or less."                                       |
+| sort               | 「createdAt」or 「eventStartDatetime」以外の場合    | "sort must be either "createdAt" or "eventStartDatetime"."               |
+| order              | 「asc」or「desc」以外の場合                         | "order must be either "asc" or "desc"."                                  |
 
 **リクエスト例**
 
