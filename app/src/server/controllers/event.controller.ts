@@ -6,12 +6,13 @@ import { BaseController } from "@/server/controllers/base.controller";
 import { validateRequestBody } from "@/server/utils/validation";
 import { CreateEventParamsSchema } from "@/shared/requests/schemas/event.schema";
 import type { CreateEventRequest } from "@/shared/requests/types/event.type";
+import { ErrorType } from "@/shared/response/enums/error-type.enum";
 import type {
   CreateEventResponse,
   Event,
   SearchEventsResponse,
 } from "@/shared/response/types/event.type";
-import { parseIso, toIso } from "@/utils/date";
+import { createDate, isValidIso, now, parseIso, toIso } from "@/utils/date";
 
 import { EventService } from "../services/event.service";
 
@@ -31,6 +32,80 @@ export class EventController extends BaseController {
   async getEvents(
     request: NextRequest
   ): Promise<NextResponse<SearchEventsResponse>> {
+    // 取得結果を返す
+    const params = request.nextUrl.searchParams;
+    const keyword = params.get("keyword") ?? "";
+    const fields: Record<string, string> = {};
+    const eventStartDatetime = params.get("eventStartDatetime");
+    const eventEndDatetime = params.get("eventEndDatetime");
+    const eventPlace = params.get("eventPlace");
+
+    if (keyword.length > 50) {
+      fields.keyword = "keyword must be 50 characters or less.";
+    }
+
+    if (eventStartDatetime && !isValidIso(eventStartDatetime)) {
+      fields.eventStartDatetime =
+        "eventStartDatetime must be in YYYY-MM-DDTHH:MM:SS.mmmZ format.";
+    }
+    if (eventStartDatetime && isValidIso(eventStartDatetime)) {
+      const Date = parseIso(eventStartDatetime);
+      const today = now();
+      today.getFullYear();
+      const tomorrow = createDate({
+        params: {
+          year: today.getFullYear(),
+          monthIndex: today.getMonth(),
+          day: today.getDate() + 1,
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        },
+      });
+      if (tomorrow > Date) {
+        fields.eventStartDatetime =
+          "eventStartDatetime must be a date starting from tomorrow or later.";
+      }
+    }
+
+    if (eventEndDatetime && !isValidIso(eventEndDatetime)) {
+      fields.eventEndDatetime =
+        "eventStartDatetime must be in YYYY-MM-DDTHH:MM:SS.mmmZ format.";
+    }
+
+    if (
+      eventEndDatetime &&
+      isValidIso(eventEndDatetime) &&
+      eventStartDatetime &&
+      isValidIso(eventStartDatetime)
+    ) {
+      const EndDate = parseIso(eventEndDatetime);
+      const StartDate = parseIso(eventStartDatetime);
+      if (StartDate > EndDate) {
+        fields.eventEndDatetime =
+          "eventEndDatetime must be the same as or later than eventStartDatetime.";
+      }
+    }
+
+    const eventPlaceNumber = Number(eventPlace);
+    if (isNaN(eventPlaceNumber)) {
+      fields.eventPlace = "eventPlace must be a numeric value.";
+    }
+
+    if (Object.keys(fields).length > 0) {
+      return NextResponse.json<SearchEventsResponse>(
+        {
+          error: {
+            message: "Invalid query parameters",
+            type: ErrorType.INVALID_PARAMETER,
+            fields,
+          },
+        },
+        { status: 400 }
+      );
+    }
+
     // イベントを取得
     const events = await this.eventService.getEvents();
 
